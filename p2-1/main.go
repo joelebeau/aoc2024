@@ -3,50 +3,89 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
-	"slices"
 	"strconv"
 	"strings"
 )
 
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
-
-	left := []int{}
-	right := []int{}
+	total := 0
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		segments := strings.Split(line, "   ")
-		lInt, err := strconv.Atoi(segments[0])
-		if err != nil {
-			panic(err)
-		}
-		rInt, err := strconv.Atoi(segments[1])
-		if err != nil {
-			panic(err)
-		}
-		left = append(left, lInt)
-		right = append(right, rInt)
-	}
+		numsStr := strings.Split(line, " ")
+		nums := []int{}
 
-	if len(left) != len(right) {
-		panic("UNEQUAL LEN? HOW?")
-	}
+		for _, num := range numsStr {
+			x, err := strconv.Atoi(num)
+			if err != nil {
+				panic(err)
+			}
+			nums = append(nums, x)
+		}
 
-	slices.Sort(left)
-	slices.Sort(right)
-	total := 0
-	for idx := range left {
-		l := float64(left[idx])
-		r := float64(right[idx])
-		total += int(math.Abs(l - r))
+		if isSafe(nums) {
+			total++
+		}
 	}
-	fmt.Println("RESULT: ", total)
 
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "Error reading from stdin:", err)
 		os.Exit(1)
 	}
+
+	fmt.Println("RESULT: ", total)
+}
+
+func isSafe(nums []int) bool {
+	if len(nums) == 1 {
+		return true
+	}
+
+	if nums[1] > nums[0] {
+		return isSafeIncreasing(nums)
+	} else if nums[1] < nums[0] {
+		return isSafeDecreasing(nums)
+	}
+
+	return false
+}
+
+func isSafeIncreasing(nums []int) bool {
+	for idx, x := range nums {
+		if idx == 0 {
+			continue
+		}
+
+		if nums[idx-1] >= x {
+			// Not all increasing
+			return false
+		}
+		if x-nums[idx-1] > 3 {
+			// Jump too big
+			return false
+		}
+	}
+
+	return true
+}
+
+func isSafeDecreasing(nums []int) bool {
+	for idx, x := range nums {
+		if idx == 0 {
+			continue
+		}
+
+		if nums[idx-1] <= x {
+			// Not all increasing
+			return false
+		}
+		if nums[idx-1]-x > 3 {
+			// Jump too big
+			return false
+		}
+	}
+
+	return true
 }
