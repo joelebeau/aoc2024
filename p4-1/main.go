@@ -68,10 +68,7 @@ func crawlH(field [][]rune, x, y int) int {
 			field[y][x+3] == 'S' {
 			total++
 		}
-	} else {
-		// fmt.Println("Skipping HF", x, y)
 	}
-
 	//back
 	if x >= MIN_X {
 		if field[y][x-1] == 'M' &&
@@ -79,10 +76,7 @@ func crawlH(field [][]rune, x, y int) int {
 			field[y][x-3] == 'S' {
 			total++
 		}
-	} else {
-		// fmt.Println("Skipping HB", x, y)
 	}
-
 	return total
 }
 
@@ -95,10 +89,7 @@ func crawlV(field [][]rune, x, y int) int {
 			field[y-3][x] == 'S' {
 			total++
 		}
-	} else {
-		// fmt.Println("Skipping VU", x, y)
 	}
-
 	//down
 	if y <= MAX_Y {
 		if field[y+1][x] == 'M' &&
@@ -106,8 +97,6 @@ func crawlV(field [][]rune, x, y int) int {
 			field[y+3][x] == 'S' {
 			total++
 		}
-	} else {
-		// fmt.Println("Skipping VD", x, y)
 	}
 
 	return total
@@ -123,8 +112,6 @@ func crawlD(field [][]rune, x, y int) int {
 			field[y-3][x+3] == 'S' {
 			total++
 		}
-	} else {
-		// fmt.Println("Skipping DUR", x, y)
 	}
 
 	//up-left
@@ -134,8 +121,6 @@ func crawlD(field [][]rune, x, y int) int {
 			field[y-3][x-3] == 'S' {
 			total++
 		}
-	} else {
-		// fmt.Println("Skipping DUL", x, y)
 	}
 
 	//down-right
@@ -145,8 +130,6 @@ func crawlD(field [][]rune, x, y int) int {
 			field[y+3][x+3] == 'S' {
 			total++
 		}
-	} else {
-		// fmt.Println("Skipping DDR", x, y)
 	}
 
 	//down-left
@@ -156,8 +139,6 @@ func crawlD(field [][]rune, x, y int) int {
 			field[y+3][x-3] == 'S' {
 			total++
 		}
-	} else {
-		// fmt.Println("Skipping DDL", x, y)
 	}
 
 	return total
